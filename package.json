@@ -1,0 +1,14 @@
+{
+  "name": "project-float",
+  "version": "1.0.0",
+  "description": "24-Week Vertical Jump Macrocycle Tracker",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}

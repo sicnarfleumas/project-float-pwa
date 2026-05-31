@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" fill="#0d0d0f" rx="64"/>
+  <text x="256" y="200" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="160" fill="#ff4d24" letter-spacing="-8">F</text>
+  <line x1="96" y1="260" x2="416" y2="260" stroke="#ff4d24" stroke-width="8"/>
+  <text x="256" y="340" text-anchor="middle" font-family="monospace" font-size="48" fill="#d4a32c" letter-spacing="4">FLOAT</text>
+  <text x="256" y="400" text-anchor="middle" font-family="monospace" font-size="28" fill="#7a766c" letter-spacing="6">24 WEEKS</text>
+  <!-- Jump arrow -->
+  <polygon points="256,420 240,460 272,460" fill="#1c6e5b"/>
+  <rect x="250" y="440" width="12" height="30" fill="#1c6e5b"/>
+</svg>

@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vertical Macrocycle — 24 Week Tracker</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@400;500;600;700&display=swap');
+
+    :root {
+      --ink: #0d0d0f;
+      --paper: #f4f1ea;
+      --chalk: #e8e3d6;
+      --line: #2a2a2e;
+      --accent: #ff4d২4;
+      --accent: #ff4d24;
+      --accent2: #1c6e5b;
+      --gold: #d4a32c;
+      --muted: #7a766c;
+      --shadow: 6px 6px 0 var(--ink);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Barlow Condensed', sans-serif;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 38px, rgba(0, 0, 0, .03) 38px, rgba(0, 0, 0, .03) 39px);
+      padding: 0 0 80px;
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header.hero {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 38px 0 30px;
+      margin-bottom: 8px;
+      border-bottom: 5px solid var(--accent);
+    }
+
+    .hero .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    h1 {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(34px, 6vw, 62px);
+      line-height: .92;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+    }
+
+    h1 span {
+      color: var(--accent);
+      display: block;
+      font-size: .42em;
+      letter-spacing: 3px;
+      -webkit-text-stroke: 0;
+      margin-top: 8px;
+    }
+
+    .hero-meta {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: var(--gold);
+      text-align: right;
+      line-height: 1.7;
+    }
+
+    .hero-meta b {
+      color: var(--paper);
+    }
+
+    /* controls */
+    .toolbar {
+      background: var(--chalk);
+      border: 3px solid var(--ink);
+      box-shadow: var(--shadow);
+      margin: 22px 0 30px;
+      padding: 16px 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .toolbar .grp {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .field input {
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+      border: 2px solid var(--ink);
+      background: var(--paper);
+      padding: 6px 8px;
+      width: 90px;
+      color: var(--ink);
+    }
+
+    .field input.wide {
+      width: 150px;
+    }
+
+    button {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 15px;
+      border: 3px solid var(--ink);
+      background: var(--paper);
+      color: var(--ink);
+      padding: 9px 16px;
+      cursor: pointer;
+      box-shadow: 3px 3px 0 var(--ink);
+      transition: .08s;
+    }
+
+    button:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 var(--ink);
+    }
+
+    button.primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    button.go {
+      background: var(--accent2);
+      color: #fff;
+    }
+
+    button.gold {
+      background: var(--gold);
+    }
+
+    .spacer {
+      flex: 1;
+    }
+
+    /* meso nav */
+    .mesonav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin-bottom: 26px;
+      border: 3px solid var(--ink);
+      box-shadow: var(--shadow);
+    }
+
+    .mesonav button {
+      flex: 1;
+      min-width: 150px;
+      border: none;
+      border-right: 3px solid var(--ink);
+      box-shadow: none;
+      background: var(--paper);
+      padding: 12px 8px;
+      text-align: left;
+      line-height: 1.05;
+    }
+
+    .mesonav button:last-child {
+      border-right: none;
+    }
+
+    .mesonav button:hover {
+      transform: none;
+      background: var(--chalk);
+    }
+
+    .mesonav button.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .mesonav button.active .mn-sub {
+      color: var(--gold);
+    }
+
+    .mn-num {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    .mn-title {
+      font-weight: 700;
+      font-size: 16px;
+      text-transform: uppercase;
+      display: block;
+    }
+
+    .mn-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 9.5px;
+      color: var(--muted);
+      letter-spacing: .5px;
+    }
+
+    /* meso header card */
+    .meso-card {
+      background: var(--ink);
+      color: var(--paper);
+      border: 3px solid var(--ink);
+      box-shadow: var(--shadow);
+      padding: 20px 22px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .meso-card::after {
+      content: attr(data-big);
+      position: absolute;
+      right: -10px;
+      top: -30px;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 150px;
+      color: rgba(255, 77, 36, .12);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .meso-card h2 {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 26px;
+      text-transform: uppercase;
+      letter-spacing: -.5px;
+    }
+
+    .meso-card .wk {
+      font-family: 'Space Mono', monospace;
+      color: var(--gold);
+      font-size: 13px;
+      margin: 4px 0 10px;
+    }
+
+    .meso-card p {
+      font-size: 16px;
+      max-width: 760px;
+      line-height: 1.35;
+      color: #d8d4ca;
+    }
+
+    .pillrow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .pill {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border: 1.5px solid var(--gold);
+      color: var(--gold);
+      padding: 4px 9px;
+    }
+
+    /* week tabs */
+    .weektabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .weektabs button {
+      flex: 1;
+      min-width: 120px;
+      font-size: 13px;
+      padding: 8px;
+    }
+
+    .weektabs button.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .weektabs button.deload {
+      border-style: dashed;
+    }
+
+    .weektabs button.active.deload {
+      background: var(--accent2);
+    }
+
+    /* day block */
+    .day {
+      margin-bottom: 22px;
+      border: 3px solid var(--ink);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .day-head {
+      background: var(--chalk);
+      border-bottom: 3px solid var(--ink);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .day-head h3 {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 17px;
+      text-transform: uppercase;
+      letter-spacing: -.3px;
+    }
+
+    .day-head .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 3px 8px;
+      letter-spacing: 1px;
+    }
+
+    .day-note {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      padding: 7px 16px;
+      border-bottom: 2px dotted var(--line);
+      background: rgba(0, 0, 0, .02);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      font-family: 'Space Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    td {
+      padding: 5px 10px;
+      border-bottom: 1px solid rgba(0, 0, 0, .1);
+      vertical-align: middle;
+      font-size: 15px;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .ex-name {
+      font-weight: 600;
+      width: 30%;
+    }
+
+    .ex-name .sub {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 9.5px;
+      color: var(--muted);
+      font-weight: 400;
+      letter-spacing: .3px;
+      text-transform: none;
+    }
+
+    .prescr {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: var(--accent2);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    td input {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      border: 1.5px solid #bbb6a8;
+      background: #fff;
+      padding: 5px 6px;
+      width: 100%;
+      color: var(--ink);
+    }
+
+    td input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: #fffdf6;
+    }
+
+    .col-log {
+      width: 120px;
+    }
+
+    .col-rpe {
+      width: 62px;
+    }
+
+    .col-done {
+      width: 46px;
+      text-align: center;
+    }
+
+    .chk {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: var(--accent2);
+    }
+
+    .shoulder {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 9px;
+      font-family: 'Space Mono', monospace;
+      border: 1px solid var(--accent);
+      padding: 1px 4px;
+      margin-left: 5px;
+      letter-spacing: .5px;
+    }
+
+    .legend {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.8;
+      border-left: 3px solid var(--gold);
+      padding: 8px 0 8px 16px;
+      margin: 30px 0 0;
+    }
+
+    .legend b {
+      color: var(--ink);
+    }
+
+    .save-status {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--accent2);
+      letter-spacing: .5px;
+    }
+
+    footer {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 40px;
+      letter-spacing: .5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="hero">
+    <div class="wrap">
+      <h1>Project: Float<span>24-Week Vertical Macrocycle</span></h1>
+      <div class="hero-meta">
+        <div>ATHLETE / <b id="athleteTag">—</b></div>
+        <div>STRUCTURE / <b>1 MACRO · 6 MESO · 24 WK</b></div>
+        <div>SPLIT / <b>5-DAY · SHOULDER-SAFE</b></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+
+    <div class="toolbar">
+      <div class="grp">
+        <label class="field">Name
+          <input type="text" id="athlete" class="wide" placeholder="your name">
+        </label>
+        <label class="field">Bodyweight (kg)
+          <input type="text" id="bw" placeholder="—">
+        </label>
+        <label class="field">Squat 1RM
+          <input type="text" id="squat" placeholder="—">
+        </label>
+        <label class="field">Start vert (cm)
+          <input type="text" id="vstart" placeholder="—">
+        </label>
+        <label class="field">Current vert (cm)
+          <input type="text" id="vnow" placeholder="—">
+        </label>
+      </div>
+      <div class="spacer"></div>
+      <div class="grp">
+        <button class="go" onclick="saveFile()">⬇ Export progress</button>
+        <button class="gold" onclick="document.getElementById('imp').click()">⬆ Import</button>
+        <input type="file" id="imp" accept=".json" style="display:none" onchange="loadFile(event)">
+        <span class="save-status" id="status"></span>
+      </div>
+    </div>
+
+    <nav class="mesonav" id="mesonav"></nav>
+
+    <div class="meso-card" id="mesoCard"></div>
+
+    <div class="weektabs" id="weektabs"></div>
+
+    <div id="dayContainer"></div>
+
+    <div class="legend">
+      <b>%</b> = % of squat 1RM &nbsp;·&nbsp; <b>RPE</b> = rate of perceived exertion (log how hard it felt, 6–10)
+      &nbsp;·&nbsp; <b>@X0X1</b> = tempo (ecc / pause / con / pause)<br>
+      <b>Deload weeks</b> (wk 4 of each block) run ~60% volume — drop a set, keep the bar moving, prioritise sleep.<br>
+      <span class="shoulder">SHLD</span> = shoulder-conscious movement; stop anything that pinches the right shoulder,
+      regress range as needed. No overhead pressing until your rehab clears it.<br>
+      Plyos always done FRESH and never to failure — quality of contact &gt; quantity. If a jump slows or sloppy, the
+      set is over.
+    </div>
+
+    <footer>Data lives in this file only. Export regularly to keep your log. — Built for a Muay Thai / calisthenics base
+      returning through shoulder rehab.</footer>
+  </div>
+
+  <script>
+    /* ---------- PROGRAM DATA MODEL ---------- */
+    // Six mesocycles. Each defines a block + the 5-day template content that applies across its 4 weeks.
+    // Week 4 of each meso = deload (handled via a volume note; loggable same as others).
+
+    const MESOS = [
+      {
+        n: 1, title: "Anatomical Adaptation", weeks: "Wk 1–4", big: "01",
+        desc: "Prep tendons, joints and connective tissue for what's coming. Moderate loads, controlled tempo, build movement quality and re-pattern the right shoulder safely. Extensive low-intensity plyos (pogos, line hops) to teach stiffness.",
+        pills: ["Squat 65–72%", "Tempo work", "Extensive plyo", "RPE 6–7"],
+        days: [
+          {
+            name: "Lower — Force Base", tag: "DAY 1", note: "Tempo emphasis. Own the bottom position.", ex: [
+              ["Back Squat", "@31X1 tempo", "4×6 @68%"],
+              ["Romanian Deadlift", "hinge, slow eccentric", "3×8"],
+              ["Bulgarian Split Squat", "per leg, controlled", "3×8"],
+              ["Standing Calf Raise", "2s pause top", "4×12"],
+              ["Pogo Jumps", "stiff ankles, min ground time", "4×15"]
+            ]
+          },
+          {
+            name: "Upper — Shoulder-Safe + Core", tag: "DAY 2", note: "Neutral-grip & landmine only. Nothing overhead.", ex: [
+              ["Landmine Press", "SHLD · neutral, pain-free arc", "3×10"],
+              ["Chest-Supported Row", "SHLD · scap control", "4×10"],
+              ["Pull-up", "maintenance, not to failure", "3×6"],
+              ["Face Pull / Band Pull-apart", "SHLD · rear delt / cuff", "3×15"],
+              ["Pallof Press + Dead Bug", "anti-rotation core", "3×10"]
+            ]
+          },
+          {
+            name: "Plyo Skill + Posterior", tag: "DAY 3", note: "Fresh legs only. Quality contacts.", ex: [
+              ["Ankle Pogo / Line Hops", "extensive, rhythmic", "5×20"],
+              ["Box Jump (step down)", "land soft, low box", "5×4"],
+              ["Hip Thrust", "glute drive, 1s squeeze", "4×10"],
+              ["Nordic / Ham Curl", "eccentric control", "3×6"],
+              ["Tibialis Raise", "shin health", "3×15"]
+            ]
+          },
+          {
+            name: "Recovery / Mobility / Zone 2", tag: "DAY 4", note: "Active recovery — keep HR easy.", ex: [
+              ["Zone 2 cardio", "nasal-breath pace", "25–30 min"],
+              ["Hip & Ankle Mobility", "CARs, couch stretch", "15 min"],
+              ["Shoulder Rehab Set", "SHLD · prescribed by PT", "as Rx"],
+              ["Foam Roll / Soft Tissue", "quads, calves, t-spine", "10 min"]
+            ]
+          },
+          {
+            name: "Lower — Power Intro + Jump", tag: "DAY 5", note: "Intro to fast intent. Submax.", ex: [
+              ["Trap-Bar Deadlift", "fast concentric intent", "4×5 @70%"],
+              ["Vertical Jump (submax)", "reach focus, technique", "5×3"],
+              ["Walking Lunge", "loaded, controlled", "3×10"],
+              ["Single-leg Calf Raise", "per leg", "3×12"],
+              ["Broad Jump (submax)", "stick the landing", "4×3"]
+            ]
+          }
+        ]
+      },
+      {
+        n: 2, title: "Hypertrophy / GPP", weeks: "Wk 5–8", big: "02",
+        desc: "Build cross-sectional muscle in the prime movers (quads, glutes, hamstrings, calves) and raise work capacity. More volume, moderate loads. This is the size base that future strength is built on.",
+        pills: ["Squat 70–78%", "Higher volume", "Work capacity", "RPE 7–8"],
+        days: [
+          {
+            name: "Lower — Quad Volume", tag: "DAY 1", note: "Chase a strong pump, stay 1–2 reps from failure.", ex: [
+              ["Back Squat", "steady, full depth", "5×8 @74%"],
+              ["Leg Press", "feet mid, full ROM", "4×12"],
+              ["Walking Lunge", "long stride, quad bias", "3×12"],
+              ["Leg Extension", "1s squeeze top", "3×15"],
+              ["Seated Calf Raise", "slow stretch", "4×15"]
+            ]
+          },
+          {
+            name: "Upper — Shoulder-Safe Volume", tag: "DAY 2", note: "Build the back to stabilise the shoulder.", ex: [
+              ["Landmine Press", "SHLD · controlled", "4×10"],
+              ["Chest-Supported Row", "SHLD · pause at chest", "4×12"],
+              ["Pull-up / Lat Pulldown", "full stretch", "4×8"],
+              ["Cable Face Pull", "SHLD · cuff & rear delt", "4×15"],
+              ["Hanging Knee Raise + Side Plank", "core", "3×12 / 3×30s"]
+            ]
+          },
+          {
+            name: "Plyo + Posterior Volume", tag: "DAY 3", note: "Moderate plyo dose, still fresh.", ex: [
+              ["Box Jump", "moderate height, soft land", "6×4"],
+              ["Bounding", "horizontal power, rhythmic", "4×20m"],
+              ["Hip Thrust", "heavy-ish, full lockout", "4×12"],
+              ["Nordic / Glute-Ham Raise", "eccentric", "4×6"],
+              ["Reverse Hyper / Back Ext", "low-back capacity", "3×12"]
+            ]
+          },
+          {
+            name: "Recovery / Mobility / Zone 2", tag: "DAY 4", note: "Don't skip — this is where you grow.", ex: [
+              ["Zone 2 cardio", "easy steady", "30 min"],
+              ["Mobility flow", "hips, ankles, t-spine", "15 min"],
+              ["Shoulder Rehab Set", "SHLD · per PT", "as Rx"],
+              ["Soft Tissue", "full lower body", "10 min"]
+            ]
+          },
+          {
+            name: "Lower — Posterior + Jump", tag: "DAY 5", note: "Hinge volume + repeat jumps.", ex: [
+              ["Trap-Bar Deadlift", "controlled, full", "4×8 @72%"],
+              ["Repeat Vertical Jumps", "reach, consistent height", "5×4"],
+              ["Romanian Deadlift", "stretch hams", "4×10"],
+              ["Standing Calf Raise", "heavy", "5×12"],
+              ["Broad Jump", "distance + stick", "4×4"]
+            ]
+          }
+        ]
+      },
+      {
+        n: 3, title: "Maximal Strength", weeks: "Wk 9–12", big: "03",
+        desc: "Raise the force ceiling. Heavy loads, lower reps, long rest (3–4 min on mains). Force is the foundation of power — a stronger squat means a higher potential jump. Plyos stay moderate to maintain elasticity.",
+        pills: ["Squat 80–90%", "Low reps", "Long rest", "RPE 8–9"],
+        days: [
+          {
+            name: "Lower — Max Squat", tag: "DAY 1", note: "Rest 3–4 min between top sets. Brace hard.", ex: [
+              ["Back Squat", "heavy, crisp", "5×4 @85%"],
+              ["Front Squat", "upright, quad bias", "3×5 @75%"],
+              ["Bulgarian Split Squat", "loaded, per leg", "3×6"],
+              ["Standing Calf Raise", "heavy, paused", "4×8"],
+              ["Pogo Jumps", "keep elastic quality", "3×12"]
+            ]
+          },
+          {
+            name: "Upper — Shoulder-Safe Strength", tag: "DAY 2", note: "Strength rep ranges, still no overhead.", ex: [
+              ["Landmine Press", "SHLD · heavier, clean reps", "4×8"],
+              ["Weighted Pull-up / Row", "SHLD · build pulling strength", "4×6"],
+              ["Chest-Supported Row", "SHLD · heavy, paused", "4×8"],
+              ["Face Pull + External Rotation", "SHLD · cuff strength", "3×15"],
+              ["Weighted Plank + Pallof", "stiff trunk", "3×30s / 3×10"]
+            ]
+          },
+          {
+            name: "Plyo + Heavy Posterior", tag: "DAY 3", note: "Quality contacts, longer rest between sets.", ex: [
+              ["Depth Drop → Stick", "low box, absorb force", "5×3"],
+              ["Box Jump", "moderate, explosive", "5×3"],
+              ["Heavy Hip Thrust", "3×6 near-max", "4×6"],
+              ["Nordic Curl", "slow eccentric", "4×5"],
+              ["Back Extension", "weighted", "3×10"]
+            ]
+          },
+          {
+            name: "Recovery / Mobility / Zone 2", tag: "DAY 4", note: "Heavy weeks tax the CNS — recover fully.", ex: [
+              ["Zone 2 cardio", "easy", "25 min"],
+              ["Mobility", "hip & ankle priority", "15 min"],
+              ["Shoulder Rehab", "SHLD · per PT", "as Rx"],
+              ["Soft Tissue / Sauna", "optional", "—"]
+            ]
+          },
+          {
+            name: "Lower — Max Pull + Jump", tag: "DAY 5", note: "Heavy hinge, then sharp jumps.", ex: [
+              ["Trap-Bar Deadlift", "heavy, fast intent", "5×3 @85%"],
+              ["Max Vertical Jump", "full effort, reach mark", "6×2"],
+              ["Romanian Deadlift", "heavy", "3×6"],
+              ["Single-leg Calf Raise", "loaded", "3×10"],
+              ["Standing Long Jump", "max effort, stick", "5×2"]
+            ]
+          }
+        ]
+      },
+      {
+        n: 4, title: "Strength-Speed", weeks: "Wk 13–16", big: "04",
+        desc: "Now move heavy loads FAST. Dynamic-effort squats (compensatory acceleration), velocity-based intent. We start converting raw strength into usable power. Plyo intensity climbs.",
+        pills: ["Dynamic 75–85%", "Fast intent", "Contrast sets", "RPE 7–8"],
+        days: [
+          {
+            name: "Lower — Dynamic Squat", tag: "DAY 1", note: "Every rep MAX speed up. Rest full between sets.", ex: [
+              ["Speed Back Squat", "explosive concentric", "8×3 @75%"],
+              ["Trap-Bar Jump (light)", "jump with bar, land soft", "5×3"],
+              ["Front Squat", "controlled", "3×5"],
+              ["Standing Calf Raise", "fast, springy", "4×10"],
+              ["Pogo Jumps", "stiff, reactive", "4×12"]
+            ]
+          },
+          {
+            name: "Upper — Shoulder-Safe", tag: "DAY 2", note: "Maintain pulling, keep cuff healthy.", ex: [
+              ["Landmine Press", "SHLD · explosive intent", "4×6"],
+              ["Weighted Pull-up", "SHLD · controlled", "4×6"],
+              ["Chest-Supported Row", "SHLD · paused", "3×10"],
+              ["Face Pull + ER", "SHLD · cuff", "3×15"],
+              ["Med-ball Slam (light) + Pallof", "trunk power, pain-free", "3×8 / 3×10"]
+            ]
+          },
+          {
+            name: "Plyo Power + Posterior", tag: "DAY 3", note: "Contrast: heavy then explosive.", ex: [
+              ["Depth Jump (low box)", "react fast off ground", "5×3"],
+              ["Hip Thrust → Vertical Jump", "contrast pair", "4×(4+3)"],
+              ["Bounding for height", "powerful, rhythmic", "4×20m"],
+              ["Nordic Curl", "eccentric", "3×6"],
+              ["Reverse Hyper", "posterior", "3×12"]
+            ]
+          },
+          {
+            name: "Recovery / Mobility / Zone 2", tag: "DAY 4", note: "Keep it light, stay springy.", ex: [
+              ["Zone 2 cardio", "easy", "20–25 min"],
+              ["Mobility", "ankle dorsiflexion focus", "15 min"],
+              ["Shoulder Rehab", "SHLD · per PT", "as Rx"],
+              ["Soft Tissue", "calves, quads", "10 min"]
+            ]
+          },
+          {
+            name: "Lower — Speed Pull + Jump", tag: "DAY 5", note: "Fast pulls, max-intent jumps.", ex: [
+              ["Speed Trap-Bar Deadlift", "explosive", "6×3 @80%"],
+              ["Max Vertical Jump", "reach, full effort", "6×3"],
+              ["Romanian Deadlift", "moderate", "3×8"],
+              ["Single-leg Calf Raise", "springy", "3×10"],
+              ["Approach Jump (1-step)", "basketball-style, soft land", "5×3"]
+            ]
+          }
+        ]
+      },
+      {
+        n: 5, title: "Speed-Strength / Power", weeks: "Wk 17–20", big: "05",
+        desc: "Rate of force development is king now. Lighter, explosive loads; high-intensity reactive plyos; jump-squats and Olympic-lift variants (shoulder-safe). The bar moves light and fast — express power.",
+        pills: ["Explosive 50–70%", "High plyo", "RFD focus", "RPE 7"],
+        days: [
+          {
+            name: "Lower — Jump Squats", tag: "DAY 1", note: "Light & violent. Reset each rep.", ex: [
+              ["Jump Squat (loaded)", "explosive, 20–30% 1RM", "6×3"],
+              ["Trap-Bar Jump", "max height with bar", "5×3"],
+              ["Bulgarian Split Squat", "controlled, maintenance", "3×6"],
+              ["Reactive Calf Hops", "fast, stiff", "4×15"],
+              ["Pogo to single-leg", "reactive", "4×10"]
+            ]
+          },
+          {
+            name: "Upper — Shoulder-Safe", tag: "DAY 2", note: "Low volume maintenance.", ex: [
+              ["Landmine Push Press", "SHLD · only if cleared", "3×6"],
+              ["Weighted Pull-up", "SHLD · maintain", "3×5"],
+              ["Chest-Supported Row", "SHLD", "3×8"],
+              ["Face Pull + ER", "SHLD · cuff", "3×15"],
+              ["Med-ball Rotational Throw", "trunk power, pain-free", "3×6"]
+            ]
+          },
+          {
+            name: "Reactive Plyo + Posterior", tag: "DAY 3", note: "Highest reactive demand. Stay crisp.", ex: [
+              ["Depth Jump", "react instantly, max height", "6×3"],
+              ["Hurdle Hops", "stiff, rebound fast", "5×5"],
+              ["Single-leg Bound", "power per leg", "4×6"],
+              ["Hip Thrust", "fast concentric", "3×6"],
+              ["Nordic Curl", "maintain", "3×5"]
+            ]
+          },
+          {
+            name: "Recovery / Mobility / Zone 2", tag: "DAY 4", note: "Springs need rest to stay springy.", ex: [
+              ["Zone 2 cardio", "very easy", "20 min"],
+              ["Mobility", "full lower body", "15 min"],
+              ["Shoulder Rehab", "SHLD · per PT", "as Rx"],
+              ["Soft Tissue", "priority on calves", "10 min"]
+            ]
+          },
+          {
+            name: "Lower — Power Pull + Max Jump", tag: "DAY 5", note: "Express it — measure jumps.", ex: [
+              ["Trap-Bar Speed Pull", "light, explosive", "5×2 @70%"],
+              ["Max Vertical Jump (measured)", "log your reach", "6×2"],
+              ["Approach Jump (full)", "basketball run-up", "5×3"],
+              ["Single-leg Calf Raise", "reactive", "3×10"],
+              ["Depth Drop → Max Jump", "contrast finisher", "4×2"]
+            ]
+          }
+        ]
+      },
+      {
+        n: 6, title: "Peaking / Realization", weeks: "Wk 21–24", big: "06",
+        desc: "Convert everything into peak vertical. Volume drops sharply; intensity of intent stays maximal. Heavy CNS primers (low volume), max-intent jumps, full recovery. By the end you re-test and should hit your highest vert. Then re-assess shoulder for return to ball/Thai.",
+        pills: ["Primer 40–60%", "Max jump", "Low volume", "Full recovery"],
+        days: [
+          {
+            name: "Lower — CNS Primer", tag: "DAY 1", note: "Heavy single/double to potentiate, NOT to fatigue.", ex: [
+              ["Back Squat (primer)", "heavy double, leave 3 in tank", "3×2 @85%"],
+              ["Jump Squat (light)", "fast, post-activation", "4×3"],
+              ["Vertical Jump", "max reach", "5×2"],
+              ["Calf Hops", "reactive, short", "3×10"],
+              ["—", "keep it short, you're priming", "—"]
+            ]
+          },
+          {
+            name: "Upper — Maintenance", tag: "DAY 2", note: "Minimal — just keep tissue healthy.", ex: [
+              ["Chest-Supported Row", "SHLD · light", "3×8"],
+              ["Pull-up", "SHLD · easy", "2×5"],
+              ["Face Pull + ER", "SHLD · cuff", "3×15"],
+              ["Pallof Press", "trunk", "3×10"],
+              ["Shoulder Rehab", "SHLD · per PT", "as Rx"]
+            ]
+          },
+          {
+            name: "Max Reactive Jump", tag: "DAY 3", note: "Fewest contacts, highest quality. Measure everything.", ex: [
+              ["Depth Jump (max)", "peak reactive output", "5×2"],
+              ["Approach Vertical (measured)", "run-up, log reach", "6×2"],
+              ["Standing Vertical (measured)", "log reach", "5×2"],
+              ["Hip Thrust", "light, snappy", "2×5"],
+              ["—", "walk away while jumps are high", "—"]
+            ]
+          },
+          {
+            name: "Recovery / Mobility", tag: "DAY 4", note: "Sleep, eat, recover. The work is done.", ex: [
+              ["Light movement / walk", "blood flow only", "20 min"],
+              ["Mobility", "gentle", "10 min"],
+              ["Shoulder Rehab", "SHLD · per PT", "as Rx"],
+              ["Soft Tissue", "light", "10 min"]
+            ]
+          },
+          {
+            name: "Peak Test + Jump", tag: "DAY 5", note: "Re-test vert vs week 1. Full rest between attempts.", ex: [
+              ["Trap-Bar Primer", "heavy single", "2×1 @88%"],
+              ["MAX VERTICAL TEST", "standing — record best", "5×1"],
+              ["MAX APPROACH TEST", "run-up — record best", "5×1"],
+              ["Broad Jump Test", "record distance", "3×1"],
+              ["—", "compare to week 1, log PRs", "—"]
+            ]
+          }
+        ]
+      }
+    ];
+
+    /* ---------- STATE ---------- */
+    let state = { meta: {}, logs: {} };   // logs keyed by meso-week-day-exercise-field
+    let curMeso = 0, curWeek = 0;
+
+    function weekLabel(mi, wi) {
+      // week 4 of each meso = deload
+      const globalWeek = mi * 4 + wi + 1;
+      const isDeload = wi === 3;
+      return { globalWeek, isDeload, label: isDeload ? `Wk ${globalWeek} · DELOAD` : `Wk ${globalWeek}` };
+    }
+
+    /* ---------- RENDER ---------- */
+    function renderNav() {
+      const nav = document.getElementById('mesonav');
+      nav.innerHTML = '';
+      MESOS.forEach((m, i) => {
+        const b = document.createElement('button');
+        if (i === curMeso) b.className = 'active';
+        b.innerHTML = `<span class="mn-num">MESO ${m.big}</span>
+      <span class="mn-title">${m.title}</span>
+      <span class="mn-sub">${m.weeks}</span>`;
+        b.onclick = () => { curMeso = i; curWeek = 0; renderAll(); };
+        nav.appendChild(b);
+      });
+    }
+
+    function renderMesoCard() {
+      const m = MESOS[curMeso];
+      const c = document.getElementById('mesoCard');
+      c.dataset.big = m.big;
+      c.innerHTML = `<h2>Mesocycle ${m.n} — ${m.title}</h2>
+    <div class="wk">${m.weeks} · 3 build weeks + 1 deload</div>
+    <p>${m.desc}</p>
+    <div class="pillrow">${m.pills.map(p => `<span class="pill">${p}</span>`).join('')}</div>`;
+    }
+
+    function renderWeekTabs() {
+      const wt = document.getElementById('weektabs');
+      wt.innerHTML = '';
+      for (let w = 0; w < 4; w++) {
+        const { label, isDeload } = weekLabel(curMeso, w);
+        const b = document.createElement('button');
+        b.className = (w === curWeek ? 'active ' : '') + (isDeload ? 'deload' : '');
+        b.textContent = label;
+        b.onclick = () => { curWeek = w; renderDays(); };
+        wt.appendChild(b);
+      }
+    }
+
+    function key(mi, wi, di, ei, field) { return `${mi}.${wi}.${di}.${ei}.${field}`; }
+
+    function renderDays() {
+      renderWeekTabs();
+      const m = MESOS[curMeso];
+      const cont = document.getElementById('dayContainer');
+      const { isDeload } = weekLabel(curMeso, curWeek);
+      cont.innerHTML = '';
+      m.days.forEach((day, di) => {
+        const block = document.createElement('div');
+        block.className = 'day';
+        let rows = day.ex.map((ex, ei) => {
+          const isPlaceholder = ex[0] === '—';
+          const shld = ex[1] && ex[1].includes('SHLD') ? '<span class="shoulder">SHLD</span>' : '';
+          const sub = ex[1] ? ex[1].replace('SHLD · ', '').replace('SHLD', '') : '';
+          let prescr = ex[2];
+          if (isDeload && !isPlaceholder && /^\d+×/.test(prescr)) {
+            prescr = prescr.replace(/^(\d+)×/, (mm, sets) => `${Math.max(1, parseInt(sets) - 1)}×`) + ' ↓';
+          }
+          if (isPlaceholder) {
+            return `<tr><td class="ex-name" style="color:var(--muted);font-style:italic">${sub}</td>
+          <td class="prescr">—</td><td colspan="3"></td></tr>`;
+          }
+          const kW = key(curMeso, curWeek, di, ei, 'w');
+          const kR = key(curMeso, curWeek, di, ei, 'rpe');
+          const kC = key(curMeso, curWeek, di, ei, 'done');
+          return `<tr>
+        <td class="ex-name">${ex[0]} ${shld}<span class="sub">${sub}</span></td>
+        <td class="prescr">${prescr}</td>
+        <td class="col-log"><input data-k="${kW}" value="${state.logs[kW] || ''}" placeholder="kg × reps"></td>
+        <td class="col-rpe"><input data-k="${kR}" value="${state.logs[kR] || ''}" placeholder="RPE"></td>
+        <td class="col-done"><input type="checkbox" class="chk" data-k="${kC}" ${state.logs[kC] ? 'checked' : ''}></td>
+      </tr>`;
+        }).join('');
+        block.innerHTML = `
+      <div class="day-head">
+        <h3>${day.name}</h3>
+        <span class="tag">${day.tag}</span>
+      </div>
+      <div class="day-note">${day.note}${isDeload ? ' &nbsp;—&nbsp; DELOAD: ~60% volume, keep movements crisp.' : ''}</div>
+      <table>
+        <thead><tr>
+          <th>Exercise</th><th>Prescribed</th><th>Logged (load × reps)</th><th>RPE</th><th>✓</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+        cont.appendChild(block);
+      });
+      // wire inputs
+      cont.querySelectorAll('input[data-k]').forEach(inp => {
+        if (inp.type === 'checkbox') {
+          inp.addEventListener('change', e => { state.logs[e.target.dataset.k] = e.target.checked ? 1 : 0; flash(); });
+        } else {
+          inp.addEventListener('input', e => { state.logs[e.target.dataset.k] = e.target.value; flash(); });
+        }
+      });
+    }
+
+    function renderAll() { renderNav(); renderMesoCard(); renderDays(); }
+
+    /* ---------- META FIELDS ---------- */
+    const metaFields = ['athlete', 'bw', 'squat', 'vstart', 'vnow'];
+    metaFields.forEach(f => {
+      document.getElementById(f).addEventListener('input', e => {
+        state.meta[f] = e.target.value;
+        if (f === 'athlete') document.getElementById('athleteTag').textContent = e.target.value || '—';
+        flash();
+      });
+    });
+
+    let flashTimer;
+    function flash() {
+      const s = document.getElementById('status');
+      s.textContent = '● unsaved — export to keep';
+      s.style.color = 'var(--accent)';
+      clearTimeout(flashTimer);
+    }
+
+    /* ---------- EXPORT / IMPORT ---------- */
+    function saveFile() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      const name = (state.meta.athlete || 'vert').replace(/\s+/g, '-').toLowerCase();
+      a.href = URL.createObjectURL(blob);
+      a.download = `${name}-vert-log.json`;
+      a.click();
+      const s = document.getElementById('status');
+      s.textContent = '✓ exported ' + new Date().toLocaleTimeString();
+      s.style.color = 'var(--accent2)';
+    }
+    function loadFile(evt) {
+      const file = evt.target.files[0]; if (!file) return;
+      const r = new FileReader();
+      r.onload = e => {
+        try {
+          state = JSON.parse(e.target.result);
+          if (!state.logs) state.logs = {};
+          if (!state.meta) state.meta = {};
+          metaFields.forEach(f => { document.getElementById(f).value = state.meta[f] || ''; });
+          document.getElementById('athleteTag').textContent = state.meta.athlete || '—';
+          renderAll();
+          const s = document.getElementById('status');
+          s.textContent = '✓ imported ' + file.name; s.style.color = 'var(--accent2)';
+        } catch (err) { alert('Could not read that file — make sure it\'s a log exported from this tracker.'); }
+      };
+      r.readAsText(file);
+    }
+
+    /* ---------- INIT ---------- */
+    renderAll();
+  </script>
+</body>
+
+</html>

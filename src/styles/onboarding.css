@@ -1,0 +1,378 @@
+/* =========================================================
+   Onboarding Screen
+   ========================================================= */
+
+.onboarding {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background: var(--ink);
+  color: var(--paper);
+  overflow: hidden;
+}
+
+/* --- Progress bar --- */
+.onb-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 100;
+}
+
+.onb-progress__bar {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.4s var(--ease);
+}
+
+/* --- Step container --- */
+.onb-steps {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.onb-step {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--safe-top) + 40px) var(--sp-lg) var(--sp-2xl);
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+  pointer-events: none;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.onb-step.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.onb-step.exit-left {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+
+/* --- Welcome step --- */
+.onb-brand {
+  margin-top: auto;
+}
+
+.onb-brand h1 {
+  font-size: clamp(36px, 10vw, 64px);
+  line-height: 0.9;
+  margin-bottom: 4px;
+}
+
+.onb-brand h1 .sub {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(11px, 3vw, 14px);
+  color: var(--accent);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 400;
+  margin-top: 12px;
+}
+
+.onb-tagline {
+  font-size: clamp(18px, 5vw, 26px);
+  font-weight: 600;
+  color: var(--chalk);
+  margin-top: var(--sp-lg);
+  max-width: 320px;
+  line-height: 1.2;
+}
+
+.onb-structure {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--gold);
+  margin-top: var(--sp-lg);
+  line-height: 1.8;
+  letter-spacing: 0.5px;
+}
+
+.onb-cta {
+  margin-top: auto;
+  padding-top: var(--sp-xl);
+}
+
+/* --- Form steps --- */
+.onb-step-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(20px, 6vw, 30px);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-sm);
+}
+
+.onb-step-desc {
+  color: var(--chalk);
+  font-size: 15px;
+  margin-bottom: var(--sp-xl);
+  line-height: 1.4;
+  max-width: 360px;
+}
+
+.onb-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-lg);
+  flex: 1;
+}
+
+.onb-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.onb-field__label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.onb-field__input {
+  font-family: 'Space Mono', monospace;
+  font-size: 18px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  color: var(--paper);
+  padding: 10px 0;
+  width: 100%;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+
+.onb-field__input:focus {
+  outline: none;
+  border-bottom-color: var(--accent);
+}
+
+.onb-field__input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.onb-field__hint {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+/* --- Summary step --- */
+.onb-summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+  margin-top: var(--sp-lg);
+}
+
+.onb-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.onb-summary-row__label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.onb-summary-row__value {
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  color: var(--gold);
+}
+
+/* --- Nav buttons --- */
+.onb-nav {
+  display: flex;
+  gap: var(--sp-sm);
+  padding: var(--sp-lg);
+  padding-bottom: calc(var(--safe-bottom) + var(--sp-lg));
+  background: var(--ink);
+}
+
+.onb-nav .btn {
+  flex: 1;
+}
+
+.onb-nav .btn--back {
+  flex: 0;
+  min-width: 80px;
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--paper);
+  box-shadow: none;
+}
+
+/* --- Animations --- */
+@keyframes onbFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+.onb-float {
+  animation: onbFloat 3s ease-in-out infinite;
+}
+
+/* --- Help tools / Expandables --- */
+.onb-help {
+  margin-top: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 2px solid var(--accent);
+}
+
+.onb-help__trigger {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 10px 12px;
+  color: var(--accent);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.onb-help__body {
+  padding: 0 12px 12px;
+  display: none;
+}
+
+.onb-help.open .onb-help__body {
+  display: block;
+}
+
+.onb-help.open .onb-help__trigger {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+.onb-help-text {
+  font-size: 13px;
+  color: var(--chalk);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.onb-help-text ol {
+  padding-left: 16px;
+  margin-top: 6px;
+}
+
+.onb-help-text li {
+  margin-bottom: 4px;
+}
+
+.onb-calc {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.onb-calc input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--paper);
+  padding: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  -webkit-appearance: none;
+}
+
+.onb-calc input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.onb-calc input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.onb-calc-res {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 16px;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+}
+
+.onb-opt {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  padding: 2px 6px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* --- Onboarding responsive --- */
+@media (min-width: 600px) {
+  .onb-step {
+    padding-left: var(--sp-xl);
+    padding-right: var(--sp-xl);
+    max-width: 540px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+  }
+  .onb-nav {
+    justify-content: center;
+    padding-left: var(--sp-xl);
+    padding-right: var(--sp-xl);
+  }
+  .onb-nav .btn {
+    max-width: 320px;
+  }
+  .onb-field__input {
+    font-size: 20px;
+    padding: 12px 0;
+  }
+  .onb-tagline {
+    max-width: 400px;
+  }
+}
+
+@media (min-width: 768px) {
+  .onb-step {
+    max-width: 600px;
+    padding-left: var(--sp-2xl);
+    padding-right: var(--sp-2xl);
+  }
+  .onb-step-desc {
+    max-width: 440px;
+    font-size: 16px;
+  }
+  .onb-summary-row {
+    padding: 14px 0;
+  }
+  .onb-summary-row__value {
+    font-size: 16px;
+  }
+}
