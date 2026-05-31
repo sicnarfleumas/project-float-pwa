@@ -25,6 +25,10 @@ export function renderSettings(container) {
           <label class="field__label" for="set-name">Name</label>
           <input class="input" id="set-name" type="text" value="${athlete.name || ''}">
         </div>
+        <div class="field">
+          <label class="field__label" for="set-height">Height (cm)</label>
+          <input class="input" id="set-height" type="number" inputmode="decimal" value="${athlete.height || ''}">
+        </div>
       </div>
       <div class="settings-row">
         <div class="field">
@@ -40,6 +44,7 @@ export function renderSettings(container) {
         <div class="field">
           <label class="field__label" for="set-vert">Current Vert (cm)</label>
           <input class="input" id="set-vert" type="number" inputmode="decimal" value="${athlete.currentVert || ''}">
+          <div id="set-dunk-req" style="color:var(--accent); font-weight:bold; font-size:12px; margin-top:4px;"></div>
         </div>
         <div class="field">
           <label class="field__label" for="set-start">Start Date</label>
@@ -93,12 +98,31 @@ export function renderSettings(container) {
   // --- Render jump tests ---
   renderJumpTests();
 
+  function updateSettingsDunkGoal() {
+    const h = parseFloat(container.querySelector('#set-height').value);
+    const dunkReq = container.querySelector('#set-dunk-req');
+    if (dunkReq) {
+      if (!isNaN(h) && h > 0) {
+        const reach = h * 1.33;
+        const req = Math.max(0, 320 - reach).toFixed(1);
+        dunkReq.textContent = `DUNK GOAL: ~${req} CM VERT`;
+      } else {
+        dunkReq.textContent = '';
+      }
+    }
+  }
+
   // --- Wire events ---
+
+  const heightInput = container.querySelector('#set-height');
+  if (heightInput) heightInput.addEventListener('input', updateSettingsDunkGoal);
+  updateSettingsDunkGoal(); // Initial run
 
   // Save profile
   container.querySelector('#set-save-profile').addEventListener('click', () => {
     store.setAthlete({
       name: container.querySelector('#set-name').value,
+      height: container.querySelector('#set-height').value,
       bodyweight: container.querySelector('#set-bw').value,
       squat1rm: container.querySelector('#set-squat').value,
       currentVert: container.querySelector('#set-vert').value,

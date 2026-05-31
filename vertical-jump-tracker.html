@@ -513,6 +513,9 @@
         <label class="field">Name
           <input type="text" id="athlete" class="wide" placeholder="your name">
         </label>
+        <label class="field">Height (cm)
+          <input type="text" id="height" placeholder="—">
+        </label>
         <label class="field">Bodyweight (kg)
           <input type="text" id="bw" placeholder="—">
         </label>
@@ -525,6 +528,9 @@
         <label class="field">Current vert (cm)
           <input type="text" id="vnow" placeholder="—">
         </label>
+        <div class="field" style="justify-content: center;">
+          <span id="dunkReq" style="color:var(--accent); font-weight:bold; font-size:12px;"></span>
+        </div>
       </div>
       <div class="spacer"></div>
       <div class="grp">
@@ -981,11 +987,27 @@
     function renderAll() { renderNav(); renderMesoCard(); renderDays(); }
 
     /* ---------- META FIELDS ---------- */
-    const metaFields = ['athlete', 'bw', 'squat', 'vstart', 'vnow'];
+    const metaFields = ['athlete', 'height', 'bw', 'squat', 'vstart', 'vnow'];
+
+    function updateDunkGoal() {
+      const h = parseFloat(state.meta.height);
+      const el = document.getElementById('dunkReq');
+      if (el) {
+        if (!isNaN(h) && h > 0) {
+          const reach = h * 1.33; // Approx standing reach
+          const req = Math.max(0, 320 - reach).toFixed(1);
+          el.textContent = `DUNK REQ: ~${req} CM`;
+        } else {
+          el.textContent = '';
+        }
+      }
+    }
+
     metaFields.forEach(f => {
       document.getElementById(f).addEventListener('input', e => {
         state.meta[f] = e.target.value;
         if (f === 'athlete') document.getElementById('athleteTag').textContent = e.target.value || '—';
+        if (f === 'height') updateDunkGoal();
         flash();
       });
     });
@@ -1020,6 +1042,7 @@
           if (!state.meta) state.meta = {};
           metaFields.forEach(f => { document.getElementById(f).value = state.meta[f] || ''; });
           document.getElementById('athleteTag').textContent = state.meta.athlete || '—';
+          updateDunkGoal();
           renderAll();
           const s = document.getElementById('status');
           s.textContent = '✓ imported ' + file.name; s.style.color = 'var(--accent2)';

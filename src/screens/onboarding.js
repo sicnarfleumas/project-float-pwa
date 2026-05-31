@@ -13,6 +13,7 @@ export function renderOnboarding(container) {
   let step = 0;
   const data = {
     name: '',
+    height: '',
     bodyweight: '',
     squat1rm: '',
     startVert: '',
@@ -82,6 +83,10 @@ export function renderOnboarding(container) {
             <input class="onb-field__input" id="onb-name" type="text" placeholder="What do we call you?" autocomplete="name">
           </div>
           <div class="onb-field">
+            <label class="onb-field__label" for="onb-height">Height (cm) <span class="onb-opt">OPTIONAL</span></label>
+            <input class="onb-field__input" id="onb-height" type="number" inputmode="decimal" placeholder="e.g. 180">
+          </div>
+          <div class="onb-field">
             <label class="onb-field__label" for="onb-bw">Bodyweight (kg) <span class="onb-opt">OPTIONAL</span></label>
             <input class="onb-field__input" id="onb-bw" type="number" inputmode="decimal" placeholder="e.g. 78">
           </div>
@@ -120,6 +125,7 @@ export function renderOnboarding(container) {
           <div class="onb-field">
             <label class="onb-field__label" for="onb-vert">Standing Vertical (cm) <span class="onb-opt">OPTIONAL</span></label>
             <input class="onb-field__input" id="onb-vert" type="number" inputmode="decimal" placeholder="e.g. 58">
+            <div id="onb-dunk-req" style="color:var(--accent); font-weight:bold; font-size:12px; margin-top:4px;"></div>
             
             <div class="onb-help">
               <button class="onb-help__trigger">How to measure at home ▼</button>
@@ -160,6 +166,10 @@ export function renderOnboarding(container) {
             <span class="onb-summary-row__value" id="sum-name">${data.name || '—'}</span>
           </div>
           <div class="onb-summary-row">
+            <span class="onb-summary-row__label">Height</span>
+            <span class="onb-summary-row__value" id="sum-height">${data.height ? data.height + ' cm' : '—'}</span>
+          </div>
+          <div class="onb-summary-row">
             <span class="onb-summary-row__label">Bodyweight</span>
             <span class="onb-summary-row__value" id="sum-bw">${data.bodyweight ? data.bodyweight + ' kg' : '—'}</span>
           </div>
@@ -188,6 +198,7 @@ export function renderOnboarding(container) {
   function fillInputs() {
     const map = {
       'onb-name': 'name',
+      'onb-height': 'height',
       'onb-bw': 'bodyweight',
       'onb-squat': 'squat1rm',
       'onb-vert': 'startVert',
@@ -204,6 +215,7 @@ export function renderOnboarding(container) {
   function collectInputs() {
     const map = {
       'onb-name': 'name',
+      'onb-height': 'height',
       'onb-bw': 'bodyweight',
       'onb-squat': 'squat1rm',
       'onb-vert': 'startVert',
@@ -245,6 +257,7 @@ export function renderOnboarding(container) {
         // Save to store
         store.setAthlete({
           name: data.name,
+          height: data.height,
           bodyweight: data.bodyweight,
           squat1rm: data.squat1rm,
           startVert: data.startVert,
@@ -269,7 +282,20 @@ export function renderOnboarding(container) {
 
     // Live input tracking
     container.querySelectorAll('.onb-field__input').forEach(inp => {
-      inp.addEventListener('input', () => collectInputs());
+      inp.addEventListener('input', () => {
+        collectInputs();
+        const dunkReq = container.querySelector('#onb-dunk-req');
+        if (dunkReq) {
+          const h = parseFloat(data.height);
+          if (!isNaN(h) && h > 0) {
+            const reach = h * 1.33;
+            const req = Math.max(0, 320 - reach).toFixed(1);
+            dunkReq.textContent = `DUNK GOAL: ~${req} CM VERT`;
+          } else {
+            dunkReq.textContent = '';
+          }
+        }
+      });
     });
 
     // Accordions
